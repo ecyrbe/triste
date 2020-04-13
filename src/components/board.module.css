@@ -1,0 +1,56 @@
+.board {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: gray;
+  border-width: 3px;
+  border-style: solid;
+}
+
+.blockLine {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.next {
+  margin-left: 5px;
+  color: gray;
+}
+
+.square {
+  float: left;
+  width: 12px;
+  border-width: 2px;
+  border-style: solid;
+  padding: 2px;
+  margin: 1px;
+}
+
+.square.active {
+  border-color: black;
+}
+
+.square.inactive {
+  border-color: lightgray;
+}
+
+.internSquare {
+  width: 12px;
+  height: 12px;
+}
+
+.internSquare.active {
+  background: black;
+}
+
+.internSquare.inactive {
+  background: lightgray;
+}
