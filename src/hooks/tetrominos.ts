@@ -6,28 +6,28 @@ const tetrominos = ["I", "J", "L", "O", "S", "T", "Z"] as const;
 const shapes = {
   I: [[1, 1, 1, 1]],
   J: [
-    [1, 0, 0],
-    [1, 1, 1],
+    [2, 0, 0],
+    [2, 2, 2],
   ],
   L: [
-    [0, 0, 1],
-    [1, 1, 1],
+    [0, 0, 3],
+    [3, 3, 3],
   ],
   O: [
-    [1, 1],
-    [1, 1],
+    [4, 4],
+    [4, 4],
   ],
   S: [
-    [0, 1, 1],
-    [1, 1, 0],
+    [0, 5, 5],
+    [5, 5, 0],
   ],
   T: [
-    [0, 1, 0],
-    [1, 1, 1],
+    [0, 6, 0],
+    [6, 6, 6],
   ],
   Z: [
-    [1, 1, 0],
-    [0, 1, 1],
+    [7, 7, 0],
+    [0, 7, 7],
   ],
 };
 
@@ -75,13 +75,12 @@ export function isInShape(
   x: number,
   y: number
 ) {
-  return (
-    x >= posX &&
+  return x >= posX &&
     x < posX + shape[0].length &&
     y >= posY &&
-    y < posY + shape.length &&
-    shape[y - posY][x - posX] > 0
-  );
+    y < posY + shape.length
+    ? shape[y - posY][x - posX]
+    : 0;
 }
 
 function isShapeCollidingWithBoard(
@@ -95,12 +94,14 @@ function isShapeCollidingWithBoard(
     shape.some(
       (line, j) =>
         y + j >= board.length ||
-        line.some((value, i) =>
-          x + i < board[0].length
-            ? y + j >= 0
-              ? board[y + j][x + i] + value > 1
-              : false
-            : true
+        line.some(
+          (value, i) =>
+            value > 0 &&
+            (x + i < board[0].length
+              ? y + j >= 0
+                ? board[y + j][x + i] + value > value
+                : false
+              : true)
         )
     )
   );
@@ -110,7 +111,7 @@ function mergeBoard(prev: number[][], shape: number[][], x: number, y: number) {
   const lines = prev.length;
   const cur = prev
     .map((line, l) =>
-      line.map((value, i) => (isInShape(shape, x, y, i, l) ? value + 1 : value))
+      line.map((value, i) => value + isInShape(shape, x, y, i, l))
     )
     .filter((line) => line.some((value) => value === 0));
   cur.splice(0, 0, ...getInitBoard(prev[0].length, lines - cur.length));

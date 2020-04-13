@@ -34,12 +34,40 @@
   margin: 1px;
 }
 
-.square.active {
-  border-color: black;
+:root {
+  --none: lightgray;
+  --one: #679b9b;
+  --two: #305f72;
+  --three: #d45079;
+  --four: #bd574e;
+  --five: #f1935c;
+  --six: #6e5773;
+  --seven: black;
 }
 
-.square.inactive {
-  border-color: lightgray;
+.square.none {
+  border-color: var(--none);
+}
+.square.one {
+  border-color: var(--one);
+}
+.square.two {
+  border-color: var(--two);
+}
+.square.three {
+  border-color: var(--three);
+}
+.square.four {
+  border-color: var(--four);
+}
+.square.five {
+  border-color: var(--five);
+}
+.square.six {
+  border-color: var(--six);
+}
+.square.seven {
+  border-color: var(--seven);
 }
 
 .internSquare {
@@ -47,10 +75,27 @@
   height: 12px;
 }
 
-.internSquare.active {
-  background: black;
+.internSquare.none {
+  background: var(--none);
 }
-
-.internSquare.inactive {
-  background: lightgray;
+.internSquare.one {
+  background: var(--one);
+}
+.internSquare.two {
+  background: var(--two);
+}
+.internSquare.three {
+  background: var(--three);
+}
+.internSquare.four {
+  background: var(--four);
+}
+.internSquare.five {
+  background: var(--five);
+}
+.internSquare.six {
+  background: var(--six);
+}
+.internSquare.seven {
+  background: var(--seven);
 }

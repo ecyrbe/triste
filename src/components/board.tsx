@@ -11,15 +11,21 @@ type BoardProps = {
   height: number;
 };
 
-function Square({ active }: { active: boolean }) {
+const TetrominoStyles = [
+  "none",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+] as const;
+
+function Square({ value }: { value: number }) {
   return (
-    <div className={cn(style.square, active ? style.active : style.inactive)}>
-      <div
-        className={cn(
-          style.internSquare,
-          active ? style.active : style.inactive
-        )}
-      />
+    <div className={cn(style.square, style[TetrominoStyles[value]])}>
+      <div className={cn(style.internSquare, style[TetrominoStyles[value]])} />
     </div>
   );
 }
@@ -73,7 +79,7 @@ export function Board(props: BoardProps) {
         {board.map((line, l) => (
           <div key={l} className={cn(style.blockLine)}>
             {line.map((value, i) => (
-              <Cell active={value > 0 || isInCurrentShape(i, l)} />
+              <Cell value={value || isInCurrentShape(i, l)} />
             ))}
           </div>
         ))}
@@ -84,7 +90,7 @@ export function Board(props: BoardProps) {
           {range(1, 4).map((y) => (
             <div key={y} className={cn(style.blockLine)}>
               {range(1, 6).map((x) => (
-                <Cell active={isInShape(nextShape, 2, 2, x, y)} />
+                <Cell value={isInShape(nextShape, 2, 2, x, y)} />
               ))}
             </div>
           ))}
