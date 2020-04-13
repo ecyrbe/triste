@@ -36,38 +36,38 @@
 
 :root {
   --none: lightgray;
-  --one: #679b9b;
-  --two: #305f72;
-  --three: #d45079;
-  --four: #bd574e;
-  --five: #f1935c;
-  --six: #6e5773;
-  --seven: black;
+  --i: #679b9b;
+  --j: #305f72;
+  --l: #d45079;
+  --o: black;
+  --s: #f1935c;
+  --t: #6e5773;
+  --z: #bd574e;
 }
 
 .square.none {
   border-color: var(--none);
 }
-.square.one {
-  border-color: var(--one);
+.square.I {
+  border-color: var(--i);
 }
-.square.two {
-  border-color: var(--two);
+.square.J {
+  border-color: var(--j);
 }
-.square.three {
-  border-color: var(--three);
+.square.L {
+  border-color: var(--l);
 }
-.square.four {
-  border-color: var(--four);
+.square.O {
+  border-color: var(--o);
 }
-.square.five {
-  border-color: var(--five);
+.square.S {
+  border-color: var(--s);
 }
-.square.six {
-  border-color: var(--six);
+.square.T {
+  border-color: var(--t);
 }
-.square.seven {
-  border-color: var(--seven);
+.square.Z {
+  border-color: var(--z);
 }
 
 .internSquare {
@@ -78,24 +78,24 @@
 .internSquare.none {
   background: var(--none);
 }
-.internSquare.one {
-  background: var(--one);
+.internSquare.I {
+  background: var(--i);
 }
-.internSquare.two {
-  background: var(--two);
+.internSquare.J {
+  background: var(--j);
 }
-.internSquare.three {
-  background: var(--three);
+.internSquare.L {
+  background: var(--l);
 }
-.internSquare.four {
-  background: var(--four);
+.internSquare.O {
+  background: var(--o);
 }
-.internSquare.five {
-  background: var(--five);
+.internSquare.S {
+  background: var(--s);
 }
-.internSquare.six {
-  background: var(--six);
+.internSquare.T {
+  background: var(--t);
 }
-.internSquare.seven {
-  background: var(--seven);
+.internSquare.Z {
+  background: var(--z);
 }

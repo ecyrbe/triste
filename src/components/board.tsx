@@ -11,16 +11,7 @@ type BoardProps = {
   height: number;
 };
 
-const TetrominoStyles = [
-  "none",
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-] as const;
+const TetrominoStyles = ["none", "I", "J", "L", "O", "S", "T", "Z"] as const;
 
 function Square({ value }: { value: number }) {
   return (
