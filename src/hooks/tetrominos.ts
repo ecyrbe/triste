@@ -1,44 +1,122 @@
 import { useState, useCallback } from "react";
-import zip from "lodash.zip";
 
 const tetrominos = ["I", "J", "L", "O", "S", "T", "Z"] as const;
 
 const shapes = {
-  I: [[1, 1, 1, 1]],
+  I: [
+    [[1, 1, 1, 1]],
+    [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
+    [[1, 1, 1, 1]],
+    [
+      [0, 0, 1],
+      [0, 0, 1],
+      [0, 0, 1],
+      [0, 0, 1],
+    ],
+  ],
   J: [
-    [2, 0, 0],
-    [2, 2, 2],
+    [
+      [2, 0, 0],
+      [2, 2, 2],
+    ],
+    [
+      [0, 2],
+      [0, 2],
+      [2, 2],
+    ],
+    [
+      [2, 2, 2],
+      [0, 0, 2],
+    ],
+    [
+      [2, 2],
+      [2, 0],
+      [2, 0],
+    ],
   ],
   L: [
-    [0, 0, 3],
-    [3, 3, 3],
+    [
+      [0, 0, 3],
+      [3, 3, 3],
+    ],
+    [
+      [3, 3],
+      [0, 3],
+      [0, 3],
+    ],
+    [
+      [3, 3, 3],
+      [3, 0, 0],
+    ],
+    [
+      [3, 0],
+      [3, 0],
+      [3, 3],
+    ],
   ],
   O: [
-    [4, 4],
-    [4, 4],
+    [
+      [4, 4],
+      [4, 4],
+    ],
   ],
   S: [
-    [0, 5, 5],
-    [5, 5, 0],
+    [
+      [0, 5, 5],
+      [5, 5, 0],
+    ],
+    [
+      [5, 0],
+      [5, 5],
+      [0, 5],
+    ],
   ],
   T: [
-    [0, 6, 0],
-    [6, 6, 6],
+    [
+      [0, 6, 0],
+      [6, 6, 6],
+    ],
+    [
+      [0, 6],
+      [6, 6],
+      [0, 6],
+    ],
+    [
+      [6, 6, 6],
+      [0, 6, 0],
+    ],
+    [
+      [0, 6, 0],
+      [0, 6, 6],
+      [0, 6, 0],
+    ],
   ],
   Z: [
-    [7, 7, 0],
-    [0, 7, 7],
+    [
+      [7, 7, 0],
+      [0, 7, 7],
+    ],
+    [
+      [0, 7],
+      [7, 7],
+      [7, 0],
+    ],
   ],
 };
 
 const positions = {
   I: { x: 3, y: -1 },
-  J: { x: 3, y: -1 },
-  L: { x: 3, y: -1 },
+  J: { x: 4, y: -1 },
+  L: { x: 4, y: -1 },
   O: { x: 4, y: -1 },
-  S: { x: 3, y: -1 },
-  T: { x: 3, y: -1 },
-  Z: { x: 3, y: -1 },
+  S: { x: 4, y: -1 },
+  T: { x: 4, y: -1 },
+  Z: { x: 4, y: -1 },
 };
 export type Tetromino = typeof tetrominos[number];
 
@@ -56,8 +134,8 @@ function getRandomTetromino() {
  * get the shape of the given tetromino
  * @param t a tetromino
  */
-export function getTetrominoShape(t: Tetromino) {
-  return shapes[t];
+export function getTetrominoShape(t: Tetromino, rotation = 0) {
+  return shapes[t][rotation];
 }
 
 /**
@@ -89,20 +167,14 @@ function isShapeCollidingWithBoard(
   x: number,
   y: number
 ) {
-  return (
-    x < 0 ||
-    shape.some(
-      (line, j) =>
-        y + j >= board.length ||
-        line.some(
-          (value, i) =>
-            value > 0 &&
-            (x + i < board[0].length
-              ? y + j >= 0
-                ? board[y + j][x + i] + value > value
-                : false
-              : true)
-        )
+  return shape.some((line, j) =>
+    line.some(
+      (value, i) =>
+        value > 0 &&
+        y + j >= 0 &&
+        (board[y + j] === undefined ||
+          board[y + j][x + i] === undefined ||
+          board[y + j][x + i] > 0)
     )
   );
 }
@@ -129,14 +201,10 @@ export const useTetris = (width = 10, height = 20) => {
   const [nextTetromino, setNext] = useState(getRandomTetromino);
   const [posX, setX] = useState(positions[currentTetromino].x);
   const [posY, setY] = useState(positions[currentTetromino].y);
-  const [shape, setShape] = useState<number[][]>(shapes[currentTetromino]);
+  const [rotation, setRotation] = useState(0);
 
-  const isInCurrentShape = useCallback(
-    (x: number, y: number) => isInShape(shape, posX, posY, x, y),
-    [posX, posY, shape]
-  );
   const next = useCallback(() => {
-    setShape(shapes[nextTetromino]);
+    setRotation(0);
     setX(positions[nextTetromino].x);
     setY(positions[nextTetromino].y);
     setCurrent(nextTetromino);
@@ -144,44 +212,74 @@ export const useTetris = (width = 10, height = 20) => {
   }, [nextTetromino]);
 
   const rotate = useCallback(() => {
-    const nextShape = zip(...shape).reverse() as number[][];
-    if (!isShapeCollidingWithBoard(board, nextShape, posX, posY))
-      setShape(nextShape);
-  }, [board, shape, posX, posY]);
+    setRotation((prev) => {
+      const rotate = (prev + 1) % shapes[currentTetromino].length;
+      const rotatedShape = shapes[currentTetromino][rotate];
+      return isShapeCollidingWithBoard(board, rotatedShape, posX, posY)
+        ? prev
+        : rotate;
+    });
+  }, [board, currentTetromino, posX, posY]);
   const left = useCallback(
     () =>
       setX((prev) =>
-        isShapeCollidingWithBoard(board, shape, prev - 1, posY)
+        isShapeCollidingWithBoard(
+          board,
+          shapes[currentTetromino][rotation],
+          prev - 1,
+          posY
+        )
           ? prev
           : prev - 1
       ),
-    [board, shape, posY]
+    [board, currentTetromino, rotation, posY]
   );
   const right = useCallback(
     () =>
       setX((prev) =>
-        isShapeCollidingWithBoard(board, shape, prev + 1, posY)
+        isShapeCollidingWithBoard(
+          board,
+          shapes[currentTetromino][rotation],
+          prev + 1,
+          posY
+        )
           ? prev
           : prev + 1
       ),
-    [board, shape, posY]
+    [board, currentTetromino, rotation, posY]
   );
   const down = useCallback(
     () =>
       setY((prev) => {
-        if (isShapeCollidingWithBoard(board, shape, posX, prev + 1)) {
-          setBoard((prevBoard) => mergeBoard(prevBoard, shape, posX, prev));
+        if (
+          isShapeCollidingWithBoard(
+            board,
+            shapes[currentTetromino][rotation],
+            posX,
+            prev + 1
+          )
+        ) {
+          setBoard((prevBoard) =>
+            mergeBoard(
+              prevBoard,
+              shapes[currentTetromino][rotation],
+              posX,
+              prev
+            )
+          );
           next();
           return prev;
         } else return prev + 1;
       }),
-    [board, shape, posX, next]
+    [board, currentTetromino, rotation, posX, next]
   );
   return {
     board,
     currentTetromino,
     nextTetromino,
-    isInCurrentShape,
+    posX,
+    posY,
+    rotation,
     next,
     rotate,
     left,

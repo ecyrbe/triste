@@ -26,8 +26,11 @@ const Cell = React.memo(Square);
 export function Board(props: BoardProps) {
   const {
     board,
+    currentTetromino,
     nextTetromino,
-    isInCurrentShape,
+    posX,
+    posY,
+    rotation,
     rotate,
     down,
     left,
@@ -38,6 +41,10 @@ export function Board(props: BoardProps) {
   const nextShape = useMemo(() => getTetrominoShape(nextTetromino), [
     nextTetromino,
   ]);
+  const currentShape = useMemo(
+    () => getTetrominoShape(currentTetromino, rotation),
+    [currentTetromino, rotation]
+  );
 
   useKeyBoard(
     (event) => {
@@ -70,7 +77,9 @@ export function Board(props: BoardProps) {
         {board.map((line, l) => (
           <div key={l} className={cn(style.blockLine)}>
             {line.map((value, i) => (
-              <Cell value={value || isInCurrentShape(i, l)} />
+              <Cell
+                value={value || isInShape(currentShape, posX, posY, i, l)}
+              />
             ))}
           </div>
         ))}
