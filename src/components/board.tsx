@@ -1,9 +1,12 @@
 import React, { useMemo } from "react";
-import { useTetris, getTetrominoShape, isInShape } from "../hooks/tetrominos";
-import { useInterval } from "../hooks/interval";
+import {
+  useTetris,
+  getTetrominoShape,
+  isInShape,
+  TetrisState,
+} from "../hooks/tetrominos";
 import { useKeyBoard } from "../hooks/keyboard";
 import { cn, range } from "../utils";
-
 import style from "./board.module.css";
 
 type BoardProps = {
@@ -25,6 +28,7 @@ const Cell = React.memo(Square);
 
 export function Board(props: BoardProps) {
   const {
+    state,
     board,
     currentTetromino,
     nextTetromino,
@@ -36,6 +40,8 @@ export function Board(props: BoardProps) {
     left,
     right,
     next,
+    togglePause,
+    reset,
   } = useTetris(props.width, props.height);
 
   const nextShape = useMemo(() => getTetrominoShape(nextTetromino), [
@@ -64,24 +70,64 @@ export function Board(props: BoardProps) {
         case "Space":
           next();
           break;
+        case "Escape":
+          togglePause();
+          break;
+        case "Enter":
+          reset();
+          break;
       }
       event.preventDefault();
     },
-    ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"]
+    [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "Space",
+      "Escape",
+      "Enter",
+    ]
   );
-  useInterval(down, 1000);
 
   return (
     <div className={cn(style.board)}>
-      <div className={cn(style.lines)}>
-        {board.map((line, l) => (
-          <div key={l} className={cn(style.blockLine)}>
-            {line.map((value, i) => {
-              const color = value || isInShape(currentShape, posX, posY, i, l);
-              return <Cell value={color} key={`Cell-${i}${l}${color}`} />;
-            })}
-          </div>
-        ))}
+      <div className={style.commands}>
+        <div className={style.descriptions}>
+          <div>&uarr;</div>
+          <div>&larr;&darr;&rarr;</div>
+          <div>escape</div>
+          <div>enter</div>
+          <div>space</div>
+        </div>
+        <div className={style.instructions}>
+          <div> Rotate</div>
+          <div> Move</div>
+          <div> Play/Pause game</div>
+          <div> Restart game</div>
+          <div> Cheat</div>
+        </div>
+      </div>
+      <div className={style.game}>
+        {state === TetrisState.paused
+          ? "Paused"
+          : state === TetrisState.gameover
+          ? "Game Over"
+          : "Playing"}
+
+        <div className={cn(style.lines)}>
+          {board.map((line, l) => (
+            <div key={l} className={cn(style.blockLine)}>
+              {line.map((value, i) => {
+                const color =
+                  state === TetrisState.gameover
+                    ? 4
+                    : value || isInShape(currentShape, posX, posY, i, l);
+                return <Cell value={color} key={`Cell-${i}${l}${color}`} />;
+              })}
+            </div>
+          ))}
+        </div>
       </div>
       <div className={cn(style.next)}>
         Next Block
