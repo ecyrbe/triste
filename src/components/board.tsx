@@ -76,11 +76,10 @@ export function Board(props: BoardProps) {
       <div className={cn(style.lines)}>
         {board.map((line, l) => (
           <div key={l} className={cn(style.blockLine)}>
-            {line.map((value, i) => (
-              <Cell
-                value={value || isInShape(currentShape, posX, posY, i, l)}
-              />
-            ))}
+            {line.map((value, i) => {
+              const color = value || isInShape(currentShape, posX, posY, i, l);
+              return <Cell value={color} key={`Cell-${i}${l}${color}`} />;
+            })}
           </div>
         ))}
       </div>
@@ -89,9 +88,10 @@ export function Board(props: BoardProps) {
         <div className={cn(style.lines)}>
           {range(1, 4).map((y) => (
             <div key={y} className={cn(style.blockLine)}>
-              {range(1, 6).map((x) => (
-                <Cell value={isInShape(nextShape, 2, 2, x, y)} />
-              ))}
+              {range(1, 6).map((x) => {
+                const color = isInShape(nextShape, 2, 2, x, y);
+                return <Cell key={x} value={color} />;
+              })}
             </div>
           ))}
         </div>
