@@ -111,14 +111,23 @@ export function Board(props: BoardProps) {
           <div> Cheat</div>
         </div>
       </div>
-      <div className={style.game}>
+      <div
+        className={cn(
+          style.game,
+          state === TetrisState.paused
+            ? style.paused
+            : state === TetrisState.gameover
+            ? style.over
+            : style.running
+        )}
+      >
         {state === TetrisState.paused
           ? "Paused"
           : state === TetrisState.gameover
           ? "Game Over"
           : "Playing"}
 
-        <div className={cn(style.lines)}>
+        <div className={cn(style.lines, style.border)}>
           {board.map((line, l) => (
             <div key={l} className={cn(style.blockLine)}>
               {line.map((value, i) => {
@@ -133,7 +142,8 @@ export function Board(props: BoardProps) {
         </div>
       </div>
       <div className={cn(style.next)}>
-        <div className={style.scores}>
+        <div className={style.descriptions}>Stats</div>
+        <div className={cn(style.scores, style.border)}>
           <div className={style.descriptions}>
             <div>Lines:</div>
             <div>Level:</div>
@@ -145,8 +155,8 @@ export function Board(props: BoardProps) {
             <div>{score}</div>
           </div>
         </div>
-        Next Block
-        <div className={cn(style.lines)}>
+        <div className={style.descriptions}>Next</div>
+        <div className={cn(style.lines, style.border)}>
           {range(1, 4).map((y) => (
             <div key={y} className={cn(style.blockLine)}>
               {range(1, 6).map((x) => {
