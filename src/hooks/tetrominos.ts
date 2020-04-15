@@ -146,13 +146,13 @@ const shapes = {
 };
 
 const positions = {
-  I: { x: 3, y: -1 },
-  J: { x: 4, y: -1 },
-  L: { x: 4, y: -1 },
-  O: { x: 3, y: -1 },
-  S: { x: 4, y: -1 },
-  T: { x: 4, y: -1 },
-  Z: { x: 4, y: -1 },
+  I: { x: 3, y: -2 },
+  J: { x: 4, y: -2 },
+  L: { x: 4, y: -2 },
+  O: { x: 3, y: -2 },
+  S: { x: 4, y: -2 },
+  T: { x: 4, y: -2 },
+  Z: { x: 4, y: -2 },
 };
 export type Tetromino = typeof tetrominos[number];
 
