@@ -30,6 +30,9 @@ export function Board(props: BoardProps) {
   const {
     state,
     board,
+    lines,
+    level,
+    score,
     currentTetromino,
     nextTetromino,
     posX,
@@ -130,6 +133,18 @@ export function Board(props: BoardProps) {
         </div>
       </div>
       <div className={cn(style.next)}>
+        <div className={style.scores}>
+          <div className={style.descriptions}>
+            <div>Lines:</div>
+            <div>Level:</div>
+            <div>Score:</div>
+          </div>
+          <div className={style.values}>
+            <div>{lines}</div>
+            <div>{level}</div>
+            <div>{score}</div>
+          </div>
+        </div>
         Next Block
         <div className={cn(style.lines)}>
           {range(1, 4).map((y) => (

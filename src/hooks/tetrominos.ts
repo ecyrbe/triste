@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
-import { useInterval } from "../hooks/interval";
+import { useInterval } from "./interval";
+import { useScore } from "./score";
 
 const tetrominos = ["I", "J", "L", "O", "S", "T", "Z"] as const;
 
@@ -221,14 +222,26 @@ function isShapeCollidingWithBoard(
 }
 
 function merge(board: number[][], shape: number[][], x: number, y: number) {
+  return board.map((line, l) =>
+    line.map((value, i) => value + isInShape(shape, x, y, i, l))
+  );
+}
+
+function clearLines(board: number[][]) {
   const lines = board.length;
-  const cur = board
-    .map((line, l) =>
-      line.map((value, i) => value + isInShape(shape, x, y, i, l))
-    )
-    .filter((line) => line.some((value) => value === 0));
-  cur.splice(0, 0, ...getInitBoard(board[0].length, lines - cur.length));
-  return cur;
+  const clearedBoard = board.filter((line) =>
+    line.some((value) => value === 0)
+  );
+  const cleared = lines - clearedBoard.length;
+  if (cleared > 0) {
+    clearedBoard.splice(
+      0,
+      0,
+      ...getInitBoard(board[0].length, lines - clearedBoard.length)
+    );
+    return { board: clearedBoard, cleared };
+  }
+  return { board, cleared };
 }
 
 /**
@@ -245,6 +258,7 @@ export const useTetris = (width = 10, height = 20) => {
   const [posY, setY] = useState(positions[currentTetromino].y);
   const [rotation, setRotation] = useState(0);
   const [checkY, setCheckY] = useState(-1);
+  const { lines, level, score, rate, updateScore } = useScore();
 
   const togglePause = () =>
     setState((prev) =>
@@ -329,27 +343,37 @@ export const useTetris = (width = 10, height = 20) => {
           checkY
         )
       ) {
-        const saveboard = merge(
-          board,
-          shapes[currentTetromino][rotation],
-          posX,
-          posY
+        const { board: saveboard, cleared } = clearLines(
+          merge(board, shapes[currentTetromino][rotation], posX, posY)
         );
         if (saveboard[0].some((value) => value > 0))
           setState(TetrisState.gameover);
         else {
           setBoard(saveboard);
+          if (cleared) updateScore(cleared);
           next();
         }
       } else setY(checkY);
     }
-  }, [board, currentTetromino, rotation, posX, posY, checkY, next]);
+  }, [
+    board,
+    currentTetromino,
+    rotation,
+    posX,
+    posY,
+    checkY,
+    next,
+    updateScore,
+  ]);
 
   useInterval(() => {
     if (state === TetrisState.running) down();
-  }, 1000);
+  }, rate);
 
   return {
+    lines,
+    level,
+    score,
     state,
     board,
     currentTetromino,

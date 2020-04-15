@@ -124,3 +124,19 @@
   flex-direction: column;
   align-items: flex-start;
 }
+.scores {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: gray;
+  border-width: 3px;
+  border-style: solid;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+.values {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
