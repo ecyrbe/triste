@@ -1,9 +1,8 @@
 .game {
   display: flex;
   flex-direction: column;
-  align-items: paused;
-  justify-content: center;
   font-weight: 800;
+  align-items: center;
 }
 
 .game.over {
@@ -19,8 +18,8 @@
 .board {
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
+  margin-top: 20px;
 }
 .border {
   color: gray;
@@ -120,9 +119,10 @@
   background: var(--z);
 }
 
-.commands {
+.help {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin-right: 15px;
 }
@@ -147,7 +147,4 @@
 }
 .values {
   margin-left: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }

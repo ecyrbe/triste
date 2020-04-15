@@ -3,7 +3,7 @@ import style from "./board.module.css";
 
 function HelpImpl() {
   return (
-    <div className={style.commands}>
+    <div className={style.help}>
       <div className={style.descriptions}>
         <div>&uarr;</div>
         <div>&larr;&darr;&rarr;</div>
