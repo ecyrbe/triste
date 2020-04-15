@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
+import { Cell } from "./cell";
 import {
   useTetris,
   getTetrominoShape,
@@ -6,25 +7,16 @@ import {
   TetrisState,
 } from "../hooks/tetrominos";
 import { useKeyBoard } from "../hooks/keyboard";
-import { cn, range } from "../utils";
+import { cn } from "../utils";
 import style from "./board.module.css";
+import { Stats } from "./stats";
+import { Next } from "./next";
+import { Help } from "./help";
 
 type BoardProps = {
   width: number;
   height: number;
 };
-
-const TetrominoStyles = ["none", "I", "J", "L", "O", "S", "T", "Z"] as const;
-
-function Square({ value }: { value: number }) {
-  return (
-    <div className={cn(style.square, style[TetrominoStyles[value]])}>
-      <div className={cn(style.internSquare, style[TetrominoStyles[value]])} />
-    </div>
-  );
-}
-
-const Cell = React.memo(Square);
 
 export function Board(props: BoardProps) {
   const {
@@ -53,6 +45,11 @@ export function Board(props: BoardProps) {
   const currentShape = useMemo(
     () => getTetrominoShape(currentTetromino, rotation),
     [currentTetromino, rotation]
+  );
+
+  const computeNextColor = useCallback(
+    (x: number, y: number) => isInShape(nextShape, 2, 2, x, y),
+    [nextShape]
   );
 
   useKeyBoard(
@@ -95,22 +92,7 @@ export function Board(props: BoardProps) {
 
   return (
     <div className={cn(style.board)}>
-      <div className={style.commands}>
-        <div className={style.descriptions}>
-          <div>&uarr;</div>
-          <div>&larr;&darr;&rarr;</div>
-          <div>escape</div>
-          <div>enter</div>
-          <div>space</div>
-        </div>
-        <div className={style.instructions}>
-          <div> Rotate</div>
-          <div> Move</div>
-          <div> Play/Pause game</div>
-          <div> Restart game</div>
-          <div> Cheat</div>
-        </div>
-      </div>
+      <Help />
       <div
         className={cn(
           style.game,
@@ -142,30 +124,8 @@ export function Board(props: BoardProps) {
         </div>
       </div>
       <div className={cn(style.next)}>
-        <div className={style.descriptions}>Stats</div>
-        <div className={cn(style.scores, style.border)}>
-          <div className={style.descriptions}>
-            <div>Lines:</div>
-            <div>Level:</div>
-            <div>Score:</div>
-          </div>
-          <div className={style.values}>
-            <div>{lines}</div>
-            <div>{level}</div>
-            <div>{score}</div>
-          </div>
-        </div>
-        <div className={style.descriptions}>Next</div>
-        <div className={cn(style.lines, style.border)}>
-          {range(1, 4).map((y) => (
-            <div key={y} className={cn(style.blockLine)}>
-              {range(1, 6).map((x) => {
-                const color = isInShape(nextShape, 2, 2, x, y);
-                return <Cell key={x} value={color} />;
-              })}
-            </div>
-          ))}
-        </div>
+        <Stats lines={lines} level={level} score={score} />
+        <Next computeColor={computeNextColor} />
       </div>
     </div>
   );
