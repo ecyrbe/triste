@@ -79,15 +79,7 @@ export function Board(props: BoardProps) {
       }
       event.preventDefault();
     },
-    [
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      "Space",
-      "Escape",
-      "Enter",
-    ]
+    ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Escape", "Enter"]
   );
 
   return (
