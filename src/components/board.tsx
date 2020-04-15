@@ -1,13 +1,8 @@
 import React, { useMemo, useCallback } from "react";
 import { Cell } from "./cell";
-import {
-  useTetris,
-  getTetrominoShape,
-  isInShape,
-  TetrisState,
-} from "../hooks/tetrominos";
+import { useTetris, TetrisState } from "../hooks/tetris";
 import { useKeyBoard } from "../hooks/keyboard";
-import { cn } from "../utils";
+import { cn, getTetrominoShape, isInShape } from "../utils";
 import style from "./board.module.css";
 import { Stats } from "./stats";
 import { Next } from "./next";
