@@ -121,7 +121,7 @@ export function Board(props: BoardProps) {
               {line.map((value, i) => {
                 const color =
                   state === TetrisState.gameover
-                    ? 4
+                    ? 1
                     : value || isInShape(currentShape, posX, posY, i, l);
                 return <Cell value={color} key={`Cell-${i}${l}${color}`} />;
               })}
