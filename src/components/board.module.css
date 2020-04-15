@@ -145,6 +145,12 @@
   margin-bottom: 20px;
   padding: 10px;
 }
+.score {
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .values {
   margin-left: 15px;
 }

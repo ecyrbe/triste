@@ -32,7 +32,15 @@ export const useTetris = (width = 10, height = 20) => {
   const [posY, setY] = useState(positions[currentTetromino].y);
   const [rotation, setRotation] = useState(TetrominoRotation.Up);
   const [checkY, setCheckY] = useState(-1);
-  const { lines, level, score, rate, updateScore, resetScore } = useScore();
+  const {
+    lines,
+    level,
+    score,
+    highscore,
+    rate,
+    updateScore,
+    resetScore,
+  } = useScore();
 
   const togglePause = () =>
     setState((prev) =>
@@ -154,6 +162,7 @@ export const useTetris = (width = 10, height = 20) => {
     lines,
     level,
     score,
+    highscore,
     state,
     board,
     currentTetromino,

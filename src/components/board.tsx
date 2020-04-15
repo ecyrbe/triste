@@ -20,6 +20,7 @@ export function Board(props: BoardProps) {
     lines,
     level,
     score,
+    highscore,
     currentTetromino,
     nextTetromino,
     posX,
@@ -111,7 +112,12 @@ export function Board(props: BoardProps) {
         </div>
       </div>
       <div className={cn(style.next)}>
-        <Stats lines={lines} level={level} score={score} />
+        <Stats
+          lines={lines}
+          level={level}
+          score={score}
+          highscore={highscore}
+        />
         <Next computeColor={computeNextColor} />
       </div>
     </div>
