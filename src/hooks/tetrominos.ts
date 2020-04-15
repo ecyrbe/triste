@@ -210,6 +210,7 @@ export const useTetris = (width = 10, height = 20) => {
   const [posX, setX] = useState(positions[currentTetromino].x);
   const [posY, setY] = useState(positions[currentTetromino].y);
   const [rotation, setRotation] = useState(0);
+  const [checkY, setCheckY] = useState(-1);
 
   const togglePause = () =>
     setState((prev) =>
@@ -280,42 +281,35 @@ export const useTetris = (width = 10, height = 20) => {
   }, [state, board, currentTetromino, rotation, posY]);
   const down = useCallback(() => {
     if (state === TetrisState.running) {
-      setY((prev) =>
+      setCheckY(posY + 1);
+    }
+  }, [state, posY]);
+
+  useEffect(() => {
+    if (checkY === posY + 1) {
+      if (
         isShapeCollidingWithBoard(
           board,
           shapes[currentTetromino][rotation],
           posX,
-          prev + 1
+          checkY
         )
-          ? prev
-          : prev + 1
-      );
+      ) {
+        const saveboard = merge(
+          board,
+          shapes[currentTetromino][rotation],
+          posX,
+          posY
+        );
+        if (saveboard[0].some((value) => value > 0))
+          setState(TetrisState.gameover);
+        else {
+          setBoard(saveboard);
+          next();
+        }
+      } else setY(checkY);
     }
-  }, [state, board, currentTetromino, rotation, posX]);
-
-  useEffect(() => {
-    if (
-      isShapeCollidingWithBoard(
-        board,
-        shapes[currentTetromino][rotation],
-        posX,
-        posY + 1
-      )
-    ) {
-      const saveboard = merge(
-        board,
-        shapes[currentTetromino][rotation],
-        posX,
-        posY
-      );
-      if (saveboard[0].some((value) => value > 0))
-        setState(TetrisState.gameover);
-      else {
-        setBoard(saveboard);
-        next();
-      }
-    }
-  }, [board, currentTetromino, rotation, posX, posY, next]);
+  }, [board, currentTetromino, rotation, posX, posY, checkY, next]);
 
   useInterval(() => {
     if (state === TetrisState.running) down();
