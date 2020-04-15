@@ -42,13 +42,13 @@
 
 :root {
   --none: lightgray;
-  --i: #679b9b;
-  --j: #305f72;
-  --l: #d45079;
-  --o: black;
-  --s: #f1935c;
-  --t: #6e5773;
-  --z: #bd574e;
+  --i: #ff9a00;
+  --j: #27496d;
+  --l: #0c7b93;
+  --o: #fc5185;
+  --s: #00b8a9;
+  --t: #d7385e;
+  --z: #fb7b6b;
 }
 
 .square.none {
