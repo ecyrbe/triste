@@ -50,5 +50,12 @@ export function useScore() {
     [lines]
   );
 
-  return { lines, score, level, rate, updateScore };
+  const resetScore = useCallback(() => {
+    setLines(0);
+    setLevel(0);
+    setRate(rates[0]);
+    setScore(0);
+  }, []);
+
+  return { lines, score, level, rate, updateScore, resetScore };
 }

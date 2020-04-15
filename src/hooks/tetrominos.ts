@@ -258,7 +258,7 @@ export const useTetris = (width = 10, height = 20) => {
   const [posY, setY] = useState(positions[currentTetromino].y);
   const [rotation, setRotation] = useState(0);
   const [checkY, setCheckY] = useState(-1);
-  const { lines, level, score, rate, updateScore } = useScore();
+  const { lines, level, score, rate, updateScore, resetScore } = useScore();
 
   const togglePause = () =>
     setState((prev) =>
@@ -276,9 +276,10 @@ export const useTetris = (width = 10, height = 20) => {
       setCurrent(prev);
       return getRandomTetromino();
     });
+    resetScore();
     setBoard(getInitBoard(width, height));
     setState(TetrisState.running);
-  }, [width, height]);
+  }, [width, height, resetScore]);
 
   const next = useCallback(() => {
     if (state === TetrisState.running)
