@@ -113,8 +113,8 @@ export function Board(props: BoardProps) {
         </div>
       </div>
       <div className={cn(style.next)}>
-        <Stats lines={lines} level={level} score={score} />
         <Next computeColor={computeNextColor} />
+        <Stats lines={lines} level={level} score={score} />
         <Highscores highscores={highscores} />
       </div>
     </div>
