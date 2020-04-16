@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./board.module.css";
+import style from "./cell.module.css";
 import { cn } from "../utils";
 
 const TetrominoStyles = ["none", "I", "J", "L", "O", "S", "T", "Z"] as const;

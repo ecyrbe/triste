@@ -1,0 +1,65 @@
+:root {
+  --none: lightgray;
+  --i: #27496d;
+  --j: #0c7b93;
+  --l: #00b8a9;
+  --o: #d7385e;
+  --s: #fc5185;
+  --t: #fb7b6b;
+  --z: #ff9a00;
+}
+
+.square.none {
+  border-color: var(--none);
+}
+.square.I {
+  border-color: var(--i);
+}
+.square.J {
+  border-color: var(--j);
+}
+.square.L {
+  border-color: var(--l);
+}
+.square.O {
+  border-color: var(--o);
+}
+.square.S {
+  border-color: var(--s);
+}
+.square.T {
+  border-color: var(--t);
+}
+.square.Z {
+  border-color: var(--z);
+}
+
+.internSquare {
+  width: 12px;
+  height: 12px;
+}
+
+.internSquare.none {
+  background: var(--none);
+}
+.internSquare.I {
+  background: var(--i);
+}
+.internSquare.J {
+  background: var(--j);
+}
+.internSquare.L {
+  background: var(--l);
+}
+.internSquare.O {
+  background: var(--o);
+}
+.internSquare.S {
+  background: var(--s);
+}
+.internSquare.T {
+  background: var(--t);
+}
+.internSquare.Z {
+  background: var(--z);
+}
