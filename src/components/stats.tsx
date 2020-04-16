@@ -6,9 +6,8 @@ type StatsProps = {
   lines: number;
   level: number;
   score: number;
-  highscore: number;
 };
-function StatsImpl({ lines, level, score, highscore }: StatsProps) {
+function StatsImpl({ lines, level, score }: StatsProps) {
   return (
     <>
       <div className={style.descriptions}>Stats</div>
@@ -17,13 +16,11 @@ function StatsImpl({ lines, level, score, highscore }: StatsProps) {
           <div>Lines:</div>
           <div>Level:</div>
           <div>Score:</div>
-          <div>Highscore:</div>
         </div>
         <div className={style.values}>
           <div>{lines}</div>
           <div>{level}</div>
           <div>{score}</div>
-          <div>{highscore}</div>
         </div>
       </div>
     </>

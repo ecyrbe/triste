@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { useInterval } from "./interval";
-import { useScore } from "./score";
+import { useScore } from "./stats";
 import { positions } from "../data/tetrominoes";
+import { useHighscores } from "./highscores";
 import {
   getRandomTetromino,
   getTetrominoShape,
@@ -32,15 +33,8 @@ export const useTetris = (width = 10, height = 20) => {
   const [posY, setY] = useState(positions[currentTetromino].y);
   const [rotation, setRotation] = useState(TetrominoRotation.Up);
   const [checkY, setCheckY] = useState(-1);
-  const {
-    lines,
-    level,
-    score,
-    highscore,
-    rate,
-    updateScore,
-    resetScore,
-  } = useScore();
+  const { lines, level, score, rate, updateScore, resetScore } = useScore();
+  const { highscores, addHighscore } = useHighscores();
 
   const togglePause = () =>
     setState((prev) =>
@@ -134,9 +128,10 @@ export const useTetris = (width = 10, height = 20) => {
             posY
           )
         );
-        if (saveboard[0].some((value) => value > 0))
+        if (saveboard[0].some((value) => value > 0)) {
           setState(TetrisState.gameover);
-        else {
+          setCheckY(0);
+        } else {
           setBoard(saveboard);
           if (cleared) updateScore(cleared);
           next();
@@ -154,6 +149,12 @@ export const useTetris = (width = 10, height = 20) => {
     updateScore,
   ]);
 
+  useEffect(() => {
+    if (state === TetrisState.gameover) {
+      addHighscore(score);
+    }
+  }, [state, score, addHighscore]);
+
   useInterval(() => {
     if (state === TetrisState.running) down();
   }, rate);
@@ -162,7 +163,7 @@ export const useTetris = (width = 10, height = 20) => {
     lines,
     level,
     score,
-    highscore,
+    highscores,
     state,
     board,
     currentTetromino,

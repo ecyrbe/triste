@@ -36,9 +36,6 @@ export function useScore() {
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(0);
   const [rate, setRate] = useState(rates[0]);
-  const [highscore, setHighScore] = useState(
-    Number(localStorage.getItem("highscore"))
-  );
 
   const updateScore = useCallback(
     (n: number) => {
@@ -50,12 +47,8 @@ export function useScore() {
       setLevel(nlevel);
       setRate(nrate);
       setScore(nscore);
-      if (nscore > highscore) {
-        localStorage.setItem("highscore", String(nscore));
-        setHighScore(nscore);
-      }
     },
-    [lines, score, highscore]
+    [lines, score]
   );
 
   const resetScore = useCallback(() => {
@@ -65,5 +58,5 @@ export function useScore() {
     setScore(0);
   }, []);
 
-  return { lines, score, highscore, level, rate, updateScore, resetScore };
+  return { lines, score, level, rate, updateScore, resetScore };
 }

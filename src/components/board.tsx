@@ -7,6 +7,7 @@ import style from "./board.module.css";
 import { Stats } from "./stats";
 import { Next } from "./next";
 import { Help } from "./help";
+import { Highscores } from "./highscores";
 
 type BoardProps = {
   width: number;
@@ -20,7 +21,7 @@ export function Board(props: BoardProps) {
     lines,
     level,
     score,
-    highscore,
+    highscores,
     currentTetromino,
     nextTetromino,
     posX,
@@ -112,13 +113,9 @@ export function Board(props: BoardProps) {
         </div>
       </div>
       <div className={cn(style.next)}>
-        <Stats
-          lines={lines}
-          level={level}
-          score={score}
-          highscore={highscore}
-        />
+        <Stats lines={lines} level={level} score={score} />
         <Next computeColor={computeNextColor} />
+        <Highscores highscores={highscores} />
       </div>
     </div>
   );
