@@ -1,5 +1,11 @@
 import { useEffect, useRef } from "react";
 
+/**
+ * hook to listen for keyboard events and trigger a callback
+ * @param callback callback to call when requested keys event are detected
+ * @param codes an array of code representing the keys to listen events from
+ * @param options control what events to listen (keydown by default)
+ */
 export function useKeyBoard(
   callback: (event: KeyboardEvent) => void,
   codes: string[],

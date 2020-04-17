@@ -31,6 +31,10 @@ const rates = [
 ];
 const points = [0, 40, 100, 300, 1200];
 
+/**
+ * hook to get the player current stats
+ * @returns stats and callbacks to update or reset them
+ */
 export function useScore() {
   const [lines, setLines] = useState(0);
   const [score, setScore] = useState(0);

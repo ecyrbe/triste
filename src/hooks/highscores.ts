@@ -8,6 +8,10 @@ export type Highscore = {
 
 const HIGHSCORES_KEY = "highscores";
 
+/**
+ * hook to manage player highscores with localStorage integration
+ * @param maxStore maximum number of highscores to register
+ */
 export function useHighscores(maxStore = 5) {
   const [highscores, setHighscores] = useState(() => {
     try {
