@@ -2,7 +2,7 @@
   "name": "triste",
   "version": "1.4.4",
   "private": true,
-  "homepage": "http://ecyrbe.github.io/triste",
+  "homepage": "https://triste.fredo-tech.ovh",
   "dependencies": {
     "lodash": "^4.17.21",
     "react": "^16.13.1",
@@ -14,7 +14,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "echo 'triste.fredo-tech.ovh' > ./build/CNAME && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
