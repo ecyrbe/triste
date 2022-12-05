@@ -9435,10 +9435,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript-plugin-css-modules@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/typescript-plugin-css-modules/-/typescript-plugin-css-modules-4.1.0.tgz#499b6d302d7ba96dd8d9693e36be00589fb14898"
-  integrity sha512-B9TsloviXAIpijSxXcNfVndR/5rxeBafJzHgNMesxVPzSTBmKERH9KImLbm1qAL3NVRyfZlZzVKDYTaW04dGfg==
+typescript-plugin-css-modules@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/typescript-plugin-css-modules/-/typescript-plugin-css-modules-4.1.1.tgz#fc9c13f20f80c13a233beffd27697af353d96316"
+  integrity sha512-kpVxGkY/go9eV5TP1YUDJ6SqwBx2OIuVStMCxKyg9PhJVFXjLYR7AuItVLwoz0NCdiemH91WhtgAjb96jI34DA==
   dependencies:
     dotenv "^16.0.3"
     icss-utils "^5.1.0"
