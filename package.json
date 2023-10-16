@@ -43,6 +43,6 @@
     "gh-pages": "6.0.0",
     "react-scripts": "5.0.1",
     "typescript": "5.2.2",
-    "typescript-plugin-css-modules": "5.0.1"
+    "typescript-plugin-css-modules": "5.0.2"
   }
 }
